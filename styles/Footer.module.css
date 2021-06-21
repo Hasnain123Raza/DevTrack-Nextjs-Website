@@ -1,0 +1,14 @@
+.footer {
+  color: #fff;
+}
+
+.footer a {
+  display: inline-block;
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+}
+
+.footer a:hover {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+}
