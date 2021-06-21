@@ -13,6 +13,8 @@ export default function Test({ data }) {
         <meta name="description" content="DevTrack" />
       </Head>
 
+      <div className="art-browse d-flex flex-column" style={{ flex: 1 }}></div>
+
       <h1>Goodbye!</h1>
       <p>{data.toString()}</p>
       <div className="mt-auto">
