@@ -1,8 +1,28 @@
+import selectError from "../../../../services/utilities/selectError";
+import loginFormSchema from "./services/loginFormSchema.js";
+
+import { useState } from "react";
+import useProcessForm from "../../../../services/hooks/useProcessForm";
 import Link from "next/link";
 
-import { Form, Button } from "react-bootstrap";
+import { Form } from "react-bootstrap";
+import PostAndRedirectButton from "../../../../components/PostAndRedirectButton";
 
 export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [errors, setErrors] = useState([]);
+  const emailError = selectError(errors, ["user", "email"]);
+  const passwordError = selectError(errors, ["user", "password"]);
+
+  const { initiate, status, response } = useProcessForm(
+    { user: { email, password } },
+    loginFormSchema,
+    "https://devtrack-roblox.herokuapp.com/api/authentication/login",
+    setErrors
+  );
+
   return (
     <div
       className="authentication-login d-flex flex-column"
@@ -17,12 +37,12 @@ export default function Login() {
             <Form.Label>Email</Form.Label>
             <Form.Control
               type="email"
-              // value={email}
-              // isInvalid={Boolean(emailError)}
-              // onChange={(event) => dispatch(setEmail(event.target.value))}
+              value={email}
+              isInvalid={Boolean(emailError)}
+              onChange={(event) => setEmail(event.target.value)}
             />
             <Form.Control.Feedback type="invalid">
-              {/* {emailError} */}
+              {emailError}
             </Form.Control.Feedback>
           </Form.Group>
 
@@ -30,12 +50,12 @@ export default function Login() {
             <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
-              // value={password}
-              // isInvalid={Boolean(passwordError)}
-              // onChange={(event) => dispatch(setPassword(event.target.value))}
+              value={password}
+              isInvalid={Boolean(passwordError)}
+              onChange={(event) => setPassword(event.target.value)}
             />
             <Form.Control.Feedback type="invalid">
-              {/* {passwordError} */}
+              {passwordError}
             </Form.Control.Feedback>
 
             <Link href="/authentication/recoverpassword" passHref>
@@ -47,7 +67,12 @@ export default function Login() {
         </Form>
 
         <div className="mt-3 d-flex">
-          <Button variant="success">Login</Button>
+          <PostAndRedirectButton
+            initiateLoadingRequest={initiate}
+            loadingRequestStatus={status}
+            idleText="Login"
+            redirectLink={"/"}
+          />
         </div>
       </div>
     </div>

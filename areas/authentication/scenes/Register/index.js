@@ -1,6 +1,12 @@
+import { useState } from "react";
+
 import { Form, Button } from "react-bootstrap";
 
 export default function Register() {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   return (
     <div
       className="authentication-register d-flex flex-column"
@@ -15,9 +21,9 @@ export default function Register() {
             <Form.Label>Username</Form.Label>
             <Form.Control
               type="text"
-              // value={username}
+              value={username}
               // isInvalid={Boolean(usernameError)}
-              // onChange={(event) => dispatch(setUsername(event.target.value))}
+              onChange={(event) => setUsername(event.target.value)}
             />
             <Form.Control.Feedback type="invalid">
               {/* {usernameError} */}
@@ -28,9 +34,9 @@ export default function Register() {
             <Form.Label>Email</Form.Label>
             <Form.Control
               type="email"
-              // value={email}
+              value={email}
               // isInvalid={Boolean(emailError)}
-              // onChange={(event) => dispatch(setEmail(event.target.value))}
+              onChange={(event) => setEmail(event.target.value)}
             />
             <Form.Control.Feedback type="invalid">
               {/* {emailError} */}
@@ -41,9 +47,9 @@ export default function Register() {
             <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
-              // value={password}
+              value={password}
               // isInvalid={Boolean(passwordError)}
-              // onChange={(event) => dispatch(setPassword(event.target.value))}
+              onChange={(event) => setPassword(event.target.value)}
             />
             <Form.Control.Feedback type="invalid">
               {/* {passwordError} */}
