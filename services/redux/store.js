@@ -1,8 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 
+import authenticatedReducer from "../authenticatedSlice";
+
 function createStore(preloadedState) {
   return configureStore({
-    reducer: {},
+    reducer: {
+      authenticated: authenticatedReducer,
+    },
     preloadedState,
   });
 }

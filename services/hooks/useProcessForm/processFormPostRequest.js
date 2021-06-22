@@ -1,3 +1,6 @@
+import { initializeStore } from "../../redux/store.js";
+import { setAuthentication } from "../../authenticatedSlice/index.js";
+
 import validateWithJoi from "./validateWithJoi.js";
 import postToApi from "./postToApi.js";
 
@@ -18,13 +21,24 @@ export default async function processFormPostRequest(
   setErrors([]);
 
   const postResponse = await postToApi(formData, postApi);
-  const { success: postSuccess, errors: postErrors } = postResponse;
+  const {
+    success: postSuccess,
+    errors: postErrors,
+    payload: postPayload,
+  } = postResponse;
 
   if (!postSuccess) {
     if (postErrors) {
-      if (postErrors[0].path[0] === "alert")
+      const store = initializeStore();
+      const { dispatch } = store;
+
+      const errorType = postErrors[0].path[0];
+      if (errorType === "alert") {
         console.log(`ALERT: ${postErrors[0].message}`);
-      else setErrors(postErrors);
+      } else if (errorType === "authenticated") {
+        const { authenticated: isAuthenticated, user } = postPayload;
+        dispatch(setAuthentication({ isAuthenticated, user }));
+      } else setErrors(postErrors);
     }
   }
 
