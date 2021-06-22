@@ -19,7 +19,7 @@ export default function Login() {
   const { initiate, status, response } = useProcessForm(
     { user: { email, password } },
     loginFormSchema,
-    "https://devtrack-roblox.herokuapp.com/api/authentication/login",
+    "/api/authentication/login",
     setErrors
   );
 
