@@ -1,8 +1,23 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { getAuthenticatedApi } from "./api.js";
+
+export const getAuthenticated = createAsyncThunk(
+  "authenticated/getAuthenticated",
+  async (_, { rejectWithValue }) => {
+    const data = await getAuthenticatedApi();
+
+    if (data.success) {
+      return data.payload;
+    } else {
+      return rejectWithValue();
+    }
+  }
+);
 
 const initialState = {
   isAuthenticated: false,
   user: null,
+  getAuthenticatedRequestStatus: "idle",
 };
 
 const authenticatedSlice = createSlice({
@@ -19,6 +34,22 @@ const authenticatedSlice = createSlice({
       state.isAuthenticated = isAuthenticated;
       state.user = user;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getAuthenticated.pending, (state, action) => {
+        state.getAuthenticatedRequestStatus = "pending";
+      })
+      .addCase(getAuthenticated.rejected, (state, action) => {
+        state.getAuthenticatedRequestStatus = "rejected";
+      })
+      .addCase(getAuthenticated.fulfilled, (state, action) => {
+        state.getAuthenticatedRequestStatus = "fulfilled";
+
+        const { authenticated, user } = action.payload;
+        state.isAuthenticated = authenticated;
+        state.user = user;
+      });
   },
 });
 

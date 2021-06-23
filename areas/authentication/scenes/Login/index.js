@@ -1,14 +1,19 @@
 import selectError from "../../../../services/utilities/selectError";
-import loginFormSchema from "./services/loginFormSchema.js";
+import loginFormSchema from "./services/loginFormSchema";
 
+import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import useProcessForm from "../../../../services/hooks/useProcessForm";
 import Link from "next/link";
+
+import { setAuthentication } from "../../../../services/authenticatedSlice";
 
 import { Form } from "react-bootstrap";
 import PostAndRedirectButton from "../../../../components/PostAndRedirectButton";
 
 export default function Login() {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -22,6 +27,13 @@ export default function Login() {
     "/api/authentication/login",
     setErrors
   );
+
+  useEffect(() => {
+    if (status === "fulfilled") {
+      const { authenticated: isAuthenticated, user } = response.payload;
+      dispatch(setAuthentication({ isAuthenticated, user }));
+    }
+  }, [status]);
 
   return (
     <div
