@@ -50,7 +50,7 @@ export default function Login() {
       style={{ flex: 1 }}
     >
       <div>
-        <h2 style={{ textAlign: "center" }}>Login</h2>
+        <h1 style={{ textAlign: "center" }}>Login</h1>
         <hr />
 
         <Form>
@@ -102,7 +102,7 @@ export default function Login() {
             initiateLoadingRequest={initiate}
             loadingRequestStatus={status}
             idleText="Login"
-            redirectLink={"/"}
+            redirectLink={"/account/dashboard"}
           />
         </div>
       </div>

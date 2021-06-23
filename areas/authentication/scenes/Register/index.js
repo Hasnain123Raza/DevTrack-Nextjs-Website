@@ -51,7 +51,7 @@ export default function Register() {
       style={{ flex: 1 }}
     >
       <div>
-        <h2 style={{ textAlign: "center" }}>Register</h2>
+        <h1 style={{ textAlign: "center" }}>Register</h1>
         <hr />
 
         <Form>
@@ -110,7 +110,7 @@ export default function Register() {
             initiateLoadingRequest={initiate}
             loadingRequestStatus={status}
             idleText="Register"
-            redirectLink={"/"}
+            redirectLink={"/account/dashboard"}
           />
         </div>
       </div>
