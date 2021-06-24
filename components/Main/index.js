@@ -18,8 +18,6 @@ export default function Main({ children }) {
     dispatch(getAuthenticated());
   }, []);
 
-  console.log(getAuthenticatedRequestStatus);
-
   return (
     <div className="main d-flex flex-column" style={{ flex: 1 }}>
       <Container className="my-3 d-flex flex-column" style={{ flex: 1 }}>

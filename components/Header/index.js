@@ -8,7 +8,7 @@ import {
   selectGetAuthenticatedRequestStatus,
 } from "../../services/authenticatedSlice/selectors";
 
-import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import { Navbar, Nav, DropdownButton, Dropdown } from "react-bootstrap";
 
 function MobileHeaderLinks() {
   const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -18,36 +18,35 @@ function MobileHeaderLinks() {
 
   return (
     <Nav className="ml-auto">
-      <NavDropdown title="Menu">
+      <DropdownButton variant="secondary" title="Menu" menuAlign="right">
         <Link href="/" passHref>
-          <NavDropdown.Item>Home</NavDropdown.Item>
+          <Dropdown.Item>Home</Dropdown.Item>
         </Link>
         <Link href="/browse" passHref>
-          <NavDropdown.Item>Browse</NavDropdown.Item>
+          <Dropdown.Item>Browse</Dropdown.Item>
         </Link>
-        <NavDropdown.Divider />
-
+        <Dropdown.Divider />
         {getAuthenticatedRequestStatus === "fulfilled" &&
           (isAuthenticated ? (
             <>
               <Link href="/account/profile" passHref>
-                <NavDropdown.Item>Profile</NavDropdown.Item>
+                <Dropdown.Item>Profile</Dropdown.Item>
               </Link>
               <Link href="/account/dashboard" passHref>
-                <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                <Dropdown.Item>Dashboard</Dropdown.Item>
               </Link>
             </>
           ) : (
             <>
               <Link href="/authentication/login" passHref>
-                <NavDropdown.Item>Login</NavDropdown.Item>
+                <Dropdown.Item>Login</Dropdown.Item>
               </Link>
               <Link href="/authentication/register" passHref>
-                <NavDropdown.Item>Register</NavDropdown.Item>
+                <Dropdown.Item>Register</Dropdown.Item>
               </Link>
             </>
           ))}
-      </NavDropdown>
+      </DropdownButton>
     </Nav>
   );
 }
