@@ -1,4 +1,7 @@
 import useAsync from "./useAsync";
+
+import { setAlert } from "../../components/AlertSystem/services/alertSystemSlice";
+
 import { initializeStore } from "../redux/store";
 
 function handleCommonErrors(errors) {
@@ -8,7 +11,7 @@ function handleCommonErrors(errors) {
   const errorType = errors[0].path[0];
   const errorMessage = errors[0].message;
   if (errorType === "alert") {
-    console.log(`ALERT: ${errorMessage}`);
+    dispatch(setAlert({ variant: "danger", message: errorMessage }));
   } else if (errorType === "authenticated") {
     const { authenticated: isAuthenticated, user } = postPayload;
     dispatch(setAuthentication({ isAuthenticated, user }));

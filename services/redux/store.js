@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import authenticatedReducer from "../authenticatedSlice";
+import alertSystemReducer from "../../components/AlertSystem/services/alertSystemSlice";
 
 function createStore(preloadedState) {
   return configureStore({
     reducer: {
       authenticated: authenticatedReducer,
+      alertSystem: alertSystemReducer,
     },
     preloadedState,
   });
