@@ -1,6 +1,7 @@
 import useAsync from "./useAsync";
 
 import { setAlert } from "../../components/AlertSystem/services/alertSystemSlice";
+import { setAuthentication } from "../authenticatedSlice";
 
 import { initializeStore } from "../redux/store";
 
@@ -28,11 +29,14 @@ function transformAsyncStatusToFetchStatus(status, response, error) {
 }
 
 export default function useApi(fetcher) {
-  const { initiate, status, response, error } = useAsync(fetcher);
+  const { initiate, status, response, error } = useAsync(async () => {
+    const data = await fetcher();
+    const { errors } = data;
+    if (Boolean(errors)) handleCommonErrors(errors);
+    return data;
+  });
 
   if (status === "fulfilled") {
-    const { success, errors } = response;
-    if (!success && errors) handleCommonErrors(errors);
     const newStatus = transformAsyncStatusToFetchStatus(
       status,
       response,

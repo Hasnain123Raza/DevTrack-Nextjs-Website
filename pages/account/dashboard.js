@@ -23,6 +23,7 @@ export async function getServerSideProps({ req: request }) {
             authenticated: {
               isAuthenticated,
               user,
+              getAuthenticatedRequestStatus: "fulfilled",
             },
           },
         },

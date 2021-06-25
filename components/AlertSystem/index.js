@@ -7,6 +7,14 @@ import { selectAlert } from "./services/alertSystemSlice/selectors.js";
 
 import { Alert } from "react-bootstrap";
 
+import { initializeStore } from "../../services/redux/store";
+
+function handleRouteChange() {
+  const store = initializeStore();
+  const { dispatch } = store;
+  dispatch(reset());
+}
+
 export default function AlertSystem() {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -14,8 +22,9 @@ export default function AlertSystem() {
   const alert = useSelector(selectAlert);
 
   useEffect(() => {
-    return () => dispatch(reset());
-  }, [router.pathname]);
+    router.events.on("routeChangeComplete", handleRouteChange);
+    return () => router.events.off("routeChangeComplete", handleRouteChange);
+  }, []);
 
   return (
     <>
