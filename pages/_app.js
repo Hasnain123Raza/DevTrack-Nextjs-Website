@@ -11,7 +11,6 @@ import "../styles/bootstrap.min.css";
 
 function MyApp({ Component, pageProps }) {
   const store = useStore(pageProps.reduxState);
-  const { dispatch } = store;
 
   return (
     <Provider store={store}>
