@@ -8,7 +8,7 @@ import { Form } from "react-bootstrap";
 import PostAndRepeatButton from "../../../../../../components/PostAndRepeatButton";
 import TitledPage from "../../../../../../components/TitledPage";
 
-export default function Login() {
+export default function Recover() {
   const [email, setEmail] = useState("");
 
   const [errors, setErrors] = useState([]);
