@@ -73,7 +73,7 @@ export default function Login() {
             {passwordError}
           </Form.Control.Feedback>
 
-          <Link href="/authentication/recoverpassword" passHref>
+          <Link href="/authentication/password/recover" passHref>
             <a className="text-muted text-decoration-none">
               <Form.Text>Forgot Password?</Form.Text>
             </a>

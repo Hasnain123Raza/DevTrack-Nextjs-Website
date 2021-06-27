@@ -13,7 +13,6 @@ export default function RequestEmailToken() {
     });
 
     const data = await response.json();
-
     return data;
   });
 
