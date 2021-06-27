@@ -16,7 +16,7 @@ export default function DiscordAccountCard() {
         {!isVerified ? (
           "here"
         ) : (
-          <Link href="" passHref>
+          <Link href="/verification/discord" passHref>
             <a className="text-decoration-none">here</a>
           </Link>
         )}

@@ -3,17 +3,28 @@ import { HOST } from "../../../../services/constants";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import useApi from "../../../../services/hooks/useApi";
+import { useSelector } from "react-redux";
+
+import {
+  AuthenticationStatus,
+  selectAuthenticationStatus,
+} from "../../../../services/authenticatedSlice/selectors";
 
 import { Button } from "react-bootstrap";
+import TitledPage from "../../../../components/TitledPage";
 
-export default function VerifyEmailToken({ token }) {
+export default function VerifyEmailToken() {
   const router = useRouter();
+  const { token } = router.query;
 
   const { initiate, status, response } = useApi(async () => {
-    const response = await fetch(`${HOST}/api/verification/email/${token}`, {
-      method: "GET",
-      credentials: "include",
-    });
+    const response = await fetch(
+      `${HOST}/api/verification/email/${Boolean(token) ? token : "Default"}`,
+      {
+        method: "GET",
+        credentials: "include",
+      }
+    );
 
     const data = await response.json();
 
@@ -21,43 +32,81 @@ export default function VerifyEmailToken({ token }) {
   });
 
   useEffect(() => {
-    initiate();
-  }, []);
+    if (Boolean(token)) initiate();
+  }, [router.query]);
 
-  if (status !== "idle" && status !== "pending") {
-    const { success } = response;
+  const authenticationStatus = useSelector(selectAuthenticationStatus);
+
+  if (status === "idle" || status === "pending") {
+    return (
+      <TitledPage
+        className="verification-verify-email-token"
+        title="Email Verification"
+      >
+        <p>Please wait your token is being verified.</p>
+      </TitledPage>
+    );
+  } else {
+    const { success, payload } = response;
     if (success) {
       return (
-        <div
-          className="verification-verify-email-token d-flex flex-column"
-          style={{ flex: 1 }}
+        <TitledPage
+          className="verification-verify-email-token"
+          title="Email Verification"
         >
-          <div>
-            <h1 style={{ textAlign: "center" }}>Email Verification</h1>
-            <hr />
+          <p>The email on this account has been successfully verified.</p>
 
-            <>
-              <p>The email on this account has been successfully verified.</p>
+          {authenticationStatus === AuthenticationStatus.Authenticated ? (
+            <Button
+              variant="primary"
+              onClick={() => router.push("/account/dashboard")}
+            >
+              Dashboard
+            </Button>
+          ) : (
+            authenticationStatus === AuthenticationStatus.Unauthenticated && (
               <Button
                 variant="primary"
-                onClick={() => router.push("/account/dashboard")}
+                onClick={() => router.push("/authentication/login")}
               >
-                Dashboard
+                Login
               </Button>
-            </>
-          </div>
-        </div>
+            )
+          )}
+        </TitledPage>
       );
     } else {
       return (
-        <div
-          className="verification-verify-email-token d-flex flex-column"
-          style={{ flex: 1 }}
+        <TitledPage
+          className="verification-verify-email-token"
+          title="Email Verification"
         >
-          <div>
-            <h1 style={{ textAlign: "center" }}>Email Verification</h1>
-            <hr />
-
+          {Boolean(payload) && Boolean(payload.alreadyVerified) ? (
+            <>
+              <p>
+                The email on this account is already verified. The token is now
+                invalid.
+              </p>
+              {authenticationStatus === AuthenticationStatus.Authenticated ? (
+                <Button
+                  variant="primary"
+                  onClick={() => router.push("/account/dashboard")}
+                >
+                  Dashboard
+                </Button>
+              ) : (
+                authenticationStatus ===
+                  AuthenticationStatus.Unauthenticated && (
+                  <Button
+                    variant="primary"
+                    onClick={() => router.push("/authentication/login")}
+                  >
+                    Login
+                  </Button>
+                )
+              )}
+            </>
+          ) : (
             <>
               <p>
                 There was a problem with this token and it can not be used for
@@ -70,11 +119,9 @@ export default function VerifyEmailToken({ token }) {
                 New Token
               </Button>
             </>
-          </div>
-        </div>
+          )}
+        </TitledPage>
       );
     }
-  } else {
-    return <p>We are verifying your token, please wait...</p>;
   }
 }

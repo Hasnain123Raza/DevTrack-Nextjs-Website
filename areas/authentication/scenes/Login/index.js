@@ -12,6 +12,7 @@ import { setAuthentication } from "../../../../services/authenticatedSlice";
 import { Form } from "react-bootstrap";
 import PostAndRedirectButton from "../../../../components/PostAndRedirectButton";
 import Reaptcha from "reaptcha";
+import TitledPage from "../../../../components/TitledPage";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -45,67 +46,59 @@ export default function Login() {
   }, [status]);
 
   return (
-    <div
-      className="authentication-login d-flex flex-column"
-      style={{ flex: 1 }}
-    >
-      <div>
-        <h1 style={{ textAlign: "center" }}>Login</h1>
-        <hr />
-
-        <Form>
-          <Form.Group controlId="email">
-            <Form.Label>Email</Form.Label>
-            <Form.Control
-              type="email"
-              value={email}
-              isInvalid={Boolean(emailError)}
-              onChange={(event) => setEmail(event.target.value)}
-            />
-            <Form.Control.Feedback type="invalid">
-              {emailError}
-            </Form.Control.Feedback>
-          </Form.Group>
-
-          <Form.Group controlId="password">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              value={password}
-              isInvalid={Boolean(passwordError)}
-              onChange={(event) => setPassword(event.target.value)}
-            />
-            <Form.Control.Feedback type="invalid">
-              {passwordError}
-            </Form.Control.Feedback>
-
-            <Link href="/authentication/recoverpassword" passHref>
-              <a className="text-muted text-decoration-none">
-                <Form.Text>Forgot Password?</Form.Text>
-              </a>
-            </Link>
-          </Form.Group>
-        </Form>
-
-        <Reaptcha
-          sitekey={SITE_KEY}
-          onVerify={(token) => setReCaptchaToken(token)}
-          ref={reCaptchaRef}
-        />
-
-        <div className="invalid-feedback" style={{ display: "block" }}>
-          {reCaptchaTokenError}
-        </div>
-
-        <div className="mt-3 d-flex">
-          <PostAndRedirectButton
-            initiateLoadingRequest={initiate}
-            loadingRequestStatus={status}
-            idleText="Login"
-            redirectLink={"/account/dashboard"}
+    <TitledPage className="authentication-login" title="Login">
+      <Form>
+        <Form.Group controlId="email">
+          <Form.Label>Email</Form.Label>
+          <Form.Control
+            type="email"
+            value={email}
+            isInvalid={Boolean(emailError)}
+            onChange={(event) => setEmail(event.target.value)}
           />
-        </div>
+          <Form.Control.Feedback type="invalid">
+            {emailError}
+          </Form.Control.Feedback>
+        </Form.Group>
+
+        <Form.Group controlId="password">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type="password"
+            value={password}
+            isInvalid={Boolean(passwordError)}
+            onChange={(event) => setPassword(event.target.value)}
+          />
+          <Form.Control.Feedback type="invalid">
+            {passwordError}
+          </Form.Control.Feedback>
+
+          <Link href="/authentication/recoverpassword" passHref>
+            <a className="text-muted text-decoration-none">
+              <Form.Text>Forgot Password?</Form.Text>
+            </a>
+          </Link>
+        </Form.Group>
+      </Form>
+
+      <Reaptcha
+        sitekey={SITE_KEY}
+        onVerify={(token) => setReCaptchaToken(token)}
+        ref={reCaptchaRef}
+      />
+
+      <div className="invalid-feedback" style={{ display: "block" }}>
+        {reCaptchaTokenError}
       </div>
-    </div>
+
+      <div className="mt-3 d-flex">
+        <PostAndRedirectButton
+          initiateLoadingRequest={initiate}
+          loadingRequestStatus={status}
+          idleText="Login"
+          redirectLink={"/account/dashboard"}
+        />
+      </div>
+    </TitledPage>
   );
 }
