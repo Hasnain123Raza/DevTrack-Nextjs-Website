@@ -26,7 +26,7 @@ export default function ROBLOXAccountCard() {
     <b>Username: </b> RazaTD
     <br />
     <Button className="mt-2" variant="danger">
-      Remove
+      Unlink
     </Button> */}
       </Card.Body>
     </Card>
