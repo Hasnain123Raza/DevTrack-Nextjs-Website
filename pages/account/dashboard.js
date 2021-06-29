@@ -3,6 +3,7 @@ import { HOST } from "../../services/constants";
 import Dashboard from "../../areas/account/scenes/Dashboard";
 
 export async function getServerSideProps({ req: request }) {
+  console.log(request.cookies);
   try {
     const response = await fetch(`${HOST}/api/authentication/authenticated`, {
       method: "GET",
