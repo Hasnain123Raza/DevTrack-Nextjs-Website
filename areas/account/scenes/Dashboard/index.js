@@ -19,42 +19,33 @@ export default function Dashboard() {
   const router = useRouter();
 
   const authenticationStatus = useSelector(selectAuthenticationStatus);
+  const user = useSelector(selectUser);
+  const displayName = Boolean(user) ? user.displayName : "User";
 
   useEffect(() => {
     if (authenticationStatus === AuthenticationStatus.Unauthenticated)
       router.push("/authentication/login");
   }, [authenticationStatus]);
 
-  if (authenticationStatus === AuthenticationStatus.Authenticated) {
-    const user = useSelector(selectUser);
-    const { displayName } = user;
+  return (
+    <TitledPage className="account-dashboard" title={`Welcome ${displayName}`}>
+      {authenticationStatus === AuthenticationStatus.Authenticated && (
+        <>
+          <EmailAlert />
+          <DevTrackAccountCard />
 
-    return (
-      <TitledPage
-        className="account-dashboard"
-        title={`Welcome ${displayName}`}
-      >
-        <EmailAlert />
-        <DevTrackAccountCard />
-
-        <Container className="mt-3">
-          <Row>
-            <Col className="p-0" sm>
-              <ROBLOXAccountCard />
-            </Col>
-            <Col className="p-0" sm>
-              <DiscordAccountCard />
-            </Col>
-          </Row>
-        </Container>
-      </TitledPage>
-    );
-  } else {
-    return (
-      <TitledPage
-        className="account-dashboard"
-        title={`Welcome ${displayName}`}
-      ></TitledPage>
-    );
-  }
+          <Container className="mt-3">
+            <Row>
+              <Col className="p-0" sm>
+                <ROBLOXAccountCard />
+              </Col>
+              <Col className="p-0" sm>
+                <DiscordAccountCard />
+              </Col>
+            </Row>
+          </Container>
+        </>
+      )}
+    </TitledPage>
+  );
 }
