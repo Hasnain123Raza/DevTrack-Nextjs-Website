@@ -20,6 +20,8 @@ export default function Dashboard() {
 
   const authenticationStatus = useSelector(selectAuthenticationStatus);
 
+  console.log(authenticationStatus);
+
   useEffect(() => {
     if (authenticationStatus === AuthenticationStatus.Unauthenticated)
       router.push("/authentication/login");
@@ -53,7 +55,7 @@ export default function Dashboard() {
     return (
       <TitledPage
         className="account-dashboard"
-        title={`Welcome ${displayName}`}
+        title={`Welcome User`}
       ></TitledPage>
     );
   }
