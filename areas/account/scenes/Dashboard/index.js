@@ -23,7 +23,7 @@ export default function Dashboard() {
   useEffect(() => {
     if (authenticationStatus === AuthenticationStatus.Unauthenticated)
       router.push("/authentication/login");
-  }, authenticationStatus);
+  }, [authenticationStatus]);
 
   if (authenticationStatus === AuthenticationStatus.Authenticated) {
     const user = useSelector(selectUser);
