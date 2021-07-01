@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { Button } from "react-bootstrap";
 import Resource from "../Resource";
+import { useEffect } from "react";
 
 function InitiateLoadingRequestButton({
   className,
@@ -38,6 +39,11 @@ export default function PostAndRedirectButton({
   const router = useRouter();
 
   if (loadingRequestStatus === "fulfilled") router.push(redirectLink);
+
+  useEffect(() => router.prefetch(redirectLink), []);
+  useEffect(() => {
+    if (loadingRequestStatus === "fulfilled") router.push(redirectLink);
+  }, [loadingRequestStatus]);
 
   return (
     <Resource

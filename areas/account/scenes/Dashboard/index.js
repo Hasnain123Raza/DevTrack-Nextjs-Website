@@ -22,6 +22,8 @@ export default function Dashboard() {
   const user = useSelector(selectUser);
   const displayName = Boolean(user) ? user.displayName : "User";
 
+  console.log(authenticationStatus);
+
   useEffect(() => {
     if (authenticationStatus === AuthenticationStatus.Unauthenticated)
       router.push("/authentication/login");
