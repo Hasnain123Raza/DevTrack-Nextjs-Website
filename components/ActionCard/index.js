@@ -6,6 +6,7 @@ export default function ActionCard({
   description,
   buttonText,
   buttonVariant,
+  buttonDisabled = false,
 }) {
   return (
     <Card>
@@ -17,6 +18,7 @@ export default function ActionCard({
         <Button
           className="w-100 mt-3"
           variant={buttonVariant}
+          disabled={buttonDisabled}
           onClick={initiateAction}
         >
           {buttonText}
