@@ -9,6 +9,8 @@ import {
 } from "../../services/authenticatedSlice/selectors";
 
 import { Navbar, Nav, DropdownButton, Dropdown } from "react-bootstrap";
+import Image from "next/image";
+import DevTrackLogo from "../../public/DevTrack.png";
 
 function MobileHeaderLinks() {
   const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -96,7 +98,14 @@ export default function Header() {
   return (
     <div className="header">
       <Navbar variant="dark" bg="dark">
-        <Navbar.Brand>DevTrack</Navbar.Brand>
+        <Image
+          src={DevTrackLogo}
+          alt="DevTrack Logo"
+          height="40"
+          width="40"
+          layout="fixed"
+        />
+        <Navbar.Brand className="ml-1">DevTrack</Navbar.Brand>
         {width < 576 ? <MobileHeaderLinks /> : <NonMobileHeaderLinks />}
       </Navbar>
     </div>
